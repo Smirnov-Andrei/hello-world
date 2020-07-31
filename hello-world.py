@@ -1,2 +1,4 @@
+<<<<<<< HEAD
 print('hello world2')
-print('ok')
+print('mine')
+>>>>>>> origin/master
