@@ -267,8 +267,10 @@ The response should be:
 3. Run Client WebREPL
 https://github.com/micropython/webrepl.  
 Download zip -> unzip -> run 'webrepl.html'
-	![RunWeREPL](/1.png)
+
+![RunWeREPL](/1.png)
 
 4. Enter your address (ws://192.168.0.101:8266) in the input line and push "Connect"
-	![ConnectWeREPL](/2.png)
+
+![ConnectWeREPL](/2.png)
 
