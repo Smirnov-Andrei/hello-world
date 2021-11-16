@@ -160,7 +160,7 @@ there is no possibility to work via https. Issue # 7660 has already been posted 
 
 4. Compile a micropython port for esp32
 	
-	### Method 1
+	*Method 1
 ```sh
 	a.$cd $HOME/micropython/port/esp32
 	b.edit mpconfigort.h  (if necessary add/del internal modules)
@@ -185,7 +185,7 @@ there is no possibility to work via https. Issue # 7660 has already been posted 
 in esp32 repository has already new issue ##7660 for this problem.
 
 	
-	### Method 2
+	*Method 2
 ```sh
 	a.copy build-esp32-latest.sh from $HOME/micropython/tools/autobuild/ to $HOME/micropython/port/esp32
 	b. $./ build-esp32-latest.sh  esp32_idf GENERIC ~/micropython/port/esp32 
@@ -199,7 +199,7 @@ https://docs.micropython.org/en/latest/develop/natmod.html
 https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
 
 
-###How to compile .mpy from native C and/or py files instructions:
+## How to compile .mpy from native C and/or py files instructions:
 
 *tested in ubuntu 20.04 image as virtual machine*
 
