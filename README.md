@@ -247,3 +247,28 @@ Documents:
 Documents:
 - https://docs.micropython.org/en/latest/develop/natmod.html
 - https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
+
+## WebREPL on ESP32
+
+1. Setup esp32
+To use WebREPL add two lines scrypt MicropythonESP32:
+```py
+import webrepl
+webrepl.start(password="promwad")
+```
+
+The response should be:
+```sh
+>>>WebREPL daemon started on ws://192.168.0.101:8266
+>>Started webrepl in manual override mode
+```
+
+2. Close your COM-connection to esp32. REPL supports only one connection (COM or WebREPL)
+3. Run Client WebREPL
+https://github.com/micropython/webrepl.  
+Download zip -> unzip -> run 'webrepl.html'
+	![RunWeREPL](/1.png)
+
+4. Enter your address (ws://192.168.0.101:8266) in the input line and push "Connect"
+	![ConnectWeREPL](/2.png)
+
