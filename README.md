@@ -94,8 +94,10 @@ collected with new -specific versions of IDF.
 2. There is a package manager upip. Puts packages directly to the hardware via WiFi (after
 presetting)
 3. It is better to import only the necessary, and not the entire module, for example.
+```sh
 >>> from upip import install
- >>> upip.install ('picoweb')
+>>> upip.install ('picoweb')
+```
 4. The following pins are available on the ESP32 (inclusive): 0-19, 21-23, 25-27,
 32-39. These numbers correspond to the physical GPIO pin numbers of the chip.
 ESP32. It should be borne in mind that many boards use their own
@@ -118,3 +120,79 @@ CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL = n (instead of y)
 You need to monitor esp-idf to enable it when renewing the certificate, otherwise
 there is no possibility to work via https. Issue # 7660 has already been posted in esp-idf.
 9. Great thing for rapid prototyping.
+
+
+## How to build micropython
+*tested in ubuntu 20.04 image as virtual machine*
+
+```sh
+	a. $sudo apt-get install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util
+	b. $sudo apt-get install python-is-python3 python3-pip python3-setuptools
+	c. $pip3 install pyelftools>=0.25
+```
+
+2.install ESP32 toolchain 
+```sh
+	a. $mkdir esp
+	b. $cd esp
+	c. $git clone -b v4.2 --recursive https://github.com/espressif/esp-idf.git
+	d. $cd esp-idf
+	e. $./install.sh
+	f. $nano ~/.bash_aliases
+	g. add
+		alias esp32_idf='. $HOME/esp/esp-idf/export.sh'
+
+	   save&exit
+```
+
+3. Download micropython resp and compile mpy-cross compiler
+```sh
+	a.$cd $HOME
+	b.$git clone https://github.com/micropython/micropython.git
+	c.$cd micropython/mpy-cross
+	d.$make
+	e.$nano ~/.bash_aliases
+	f.add		
+		alias mpy_cross='$HOME/micropython/mpy-cross/./mpy-cross'
+
+	   save&exit
+```
+
+4. Compile a micropython port for esp32
+	
+	### Method#1
+```sh
+	a.$cd $HOME/micropython/port/esp32
+	b.edit mpconfigort.h  (if necessary add/del internal modules)
+	c.$esp32_idf (must be called before every compilation if native C files included)
+	d.$make       (perform all actions in one terminal window)
+```
+
+	As a result of the assembly, the firmware file.bin will be in the $HOME/micropython/port/esp32/build-Generic folder. 
+	It consists of three bin-files :  partition / bootloader / micropiton .
+	In esp32 we will upload the firmware.bin
+	
+	********Attention*******
+	30 semptember 2021 one certificate in the cacrt_all.pem file has expired
+		
+	Temporary solution:
+	* Edit  /micropython/ports/esp32/build-GENERIC/sdkconfig:
+```sh
+			CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=n  (instead of "y")
+			CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL=n  (instead of "y")
+```
+
+in esp32 repository has already new issue ##7660 for this problem.
+	
+	### Method#2
+```sh
+	a.copy build-esp32-latest.sh from $HOME/micropython/tools/autobuild/ to $HOME/micropython/port/esp32
+	b. $./ build-esp32-latest.sh  esp32_idf GENERIC ~/micropython/port/esp32 
+```
+	
+	In this case, all precompiled files from which the final image is assembled will be placed in the build-Generic folder.
+	
+	
+Documents:
+https://docs.micropython.org/en/latest/develop/natmod.html
+https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
