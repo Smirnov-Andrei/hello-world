@@ -195,8 +195,8 @@ in esp32 repository has already new issue ##7660 for this problem.
 	
 	
 Documents:
-https://docs.micropython.org/en/latest/develop/natmod.html
-https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
+- https://docs.micropython.org/en/latest/develop/natmod.html
+- https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
 
 
 ## How to compile .mpy from native C and/or py files instructions:
@@ -245,5 +245,5 @@ https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
 ```
 
 Documents:
-https://docs.micropython.org/en/latest/develop/natmod.html
-https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
+- https://docs.micropython.org/en/latest/develop/natmod.html
+- https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
