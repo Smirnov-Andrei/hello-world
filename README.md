@@ -161,14 +161,9 @@ there is no possibility to work via https. Issue # 7660 has already been posted 
 4. Compile a micropython port for esp32
 	
 	### Method#1
-```sh
-	a.$cd $HOME/micropython/port/esp32
-	b.edit mpconfigort.h  (if necessary add/del internal modules)
-	c.$esp32_idf (must be called before every compilation if native C files included)
-	d.$make       (perform all actions in one terminal window)
-```
 
 
+in esp32 repository has already new issue ##7660 for this problem.
 
 	
 	### Method#2
