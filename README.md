@@ -183,6 +183,7 @@ there is no possibility to work via https. Issue # 7660 has already been posted 
 ```
 
 in esp32 repository has already new issue ##7660 for this problem.
+
 	
 	### Method#2
 ```sh
@@ -193,6 +194,56 @@ in esp32 repository has already new issue ##7660 for this problem.
 	In this case, all precompiled files from which the final image is assembled will be placed in the build-Generic folder.
 	
 	
+Documents:
+https://docs.micropython.org/en/latest/develop/natmod.html
+https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
+
+
+###How to compile .mpy from native C and/or py files instructions:
+
+*tested in ubuntu 20.04 image as virtual machine*
+
+```sh
+	a. $sudo apt-get install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util
+	b. $sudo apt-get install python-is-python3 python3-pip python3-setuptools
+	c. $pip3 install pyelftools>=0.25
+```
+
+2.install ESP32 toolchain 
+```sh
+	a. $mkdir esp
+	b. $cd esp
+	c. $git clone -b v4.2 --recursive https://github.com/espressif/esp-idf.git
+	d. $cd esp-idf
+	e. $./install.sh
+	f. $nano ~/.bash_aliases
+	g. add
+		alias esp32_idf='. $HOME/esp/esp-idf/export.sh'
+
+	   save&exit
+```
+
+3. Download micropython resp and compile mpy-cross compiler
+```sh
+	a.$cd $HOME
+	b.$git clone https://github.com/micropython/micropython.git
+	c.$cd micropython/mpy-cross
+	d.$make
+	e.$nano ~/.bash_aliases
+	f.add		
+		alias mpy_cross='$HOME/micropython/mpy-cross/./mpy-cross'
+
+	   save&exit
+```
+
+4. Compile a mpy-fyles
+```sh
+	a.$cd $HOME/micropython/examples/natmod/features0
+	b.edit Makefile  (MOD = mpy_modul's_name, ARCH = xtensawin)
+	c.$esp32_idf (must be called before every compilation if native C files included)
+	d.$make       (perform all actions in one terminal window)
+```
+
 Documents:
 https://docs.micropython.org/en/latest/develop/natmod.html
 https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/
