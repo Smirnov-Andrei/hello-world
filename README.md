@@ -1,7 +1,5 @@
-<h1 align="center">ESP32 micropython & webREPL installation guide</h1>
-<h2 align="center">
+# ESP32 micropython & webREPL installation guide
 
-<p align="left">
 ## Introduction / Brief info
 1. Micropython is written in C, the source is open source. Current version 1.17
 2. The documentation is good https://docs.micropython.org/en/latest/index.html
@@ -23,7 +21,7 @@ There are ready-made images for some hardware solutions
 (https://micropython.org/download/esp32/),
 9. You can build it yourself from the source. More details in the file "How to build
 Micropython.txt "
-</p>
+
 
 ## Using micropython on esp32
 1. Features of a micropython build for (support of different hardware features) are contained in the "machine" module. For ESP32 there are 2 more
@@ -87,3 +85,36 @@ but after pouring into ESP32 I did not see these modules, maybe not everywhere
 prescribed.
 6. On the use of C ++, it is most fully described here:
 https://github.com/stinos/micropython-wrap 
+
+## Some features and conclusions
+1. ESP-IDF is changing rapidly and MicroPython only supports certain
+version. MicroPython currently supports v4.0.2, v4.1.1 and v4.2.
+although other versions of IDF v4 may work as well. Therefore, the risks are for everyone
+collected with new -specific versions of IDF.
+2. There is a package manager upip. Puts packages directly to the hardware via WiFi (after
+presetting)
+3. It is better to import only the necessary, and not the entire module, for example.
+>>> from upip import install
+ >>> upip.install ('picoweb')
+4. The following pins are available on the ESP32 (inclusive): 0-19, 21-23, 25-27,
+32-39. These numbers correspond to the physical GPIO pin numbers of the chip.
+ESP32. It should be borne in mind that many boards use their own
+pin numbering (e.g. D0, D1, etc.) must be matched.
+5. Pins 1 and 3 are, respectively, TX- and RX-pins of the UART port for REPL
+6. Pins 6, 7, 8, 11, 16 and 17 are used to connect to the built-in flash memory, so it is not recommended to use them for other purposes.
+7. Acceleration of the script can be achieved not only by using C, but
+also using @ micropython.native (which makes it possible
+converting python code to native machine code.) and
+@ micropython.viper (accessing registers directly
+microprocessor). More details https://habr.com/ru/post/448702/
+8. During assembly, one caveat emerged:
+ On September 30, 2021, one certificate in the cacrt_all.pem file expired.
+ Therefore, you have to disable the certificate in the file:
+/ micropython / ports / esp32 / build-GENERIC / sdkconfig:
+```sh
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE = n (instead of y)
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL = n (instead of y)
+ ```
+You need to monitor esp-idf to enable it when renewing the certificate, otherwise
+there is no possibility to work via https. Issue # 7660 has already been posted in esp-idf.
+9. Great thing for rapid prototyping.
