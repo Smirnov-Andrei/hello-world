@@ -160,13 +160,32 @@ there is no possibility to work via https. Issue # 7660 has already been posted 
 
 4. Compile a micropython port for esp32
 	
-	### Method#1
+	### Method 1
+```sh
+	a.$cd $HOME/micropython/port/esp32
+	b.edit mpconfigort.h  (if necessary add/del internal modules)
+	c.$esp32_idf (must be called before every compilation if native C files included)
+	d.$make       (perform all actions in one terminal window)
+```
 
+	As a result of the assembly, the firmware file.bin will be in the $HOME/micropython/port/esp32/build-Generic folder. 
+	It consists of three bin-files :  partition / bootloader / micropiton .
+	In esp32 we will upload the firmware.bin
+	
+	********Attention*******
+	30 semptember 2021 one certificate in the cacrt_all.pem file has expired
+		
+	Temporary solution:
+	* Edit  /micropython/ports/esp32/build-GENERIC/sdkconfig:
+```sh
+			CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=n  (instead of "y")
+			CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL=n  (instead of "y")
+```
 
 in esp32 repository has already new issue ##7660 for this problem.
 
 	
-	### Method#2
+	### Method 2
 ```sh
 	a.copy build-esp32-latest.sh from $HOME/micropython/tools/autobuild/ to $HOME/micropython/port/esp32
 	b. $./ build-esp32-latest.sh  esp32_idf GENERIC ~/micropython/port/esp32 
